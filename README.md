@@ -1,2 +1,2 @@
-# Programación Web
-Repositorio diseñado para registro de actividades y proyectos finales de la materia de Programación Web Verano-2025
+# Laboratorio de base de datos NoSQL
+Repositorio diseñado para registro de actividades y proyectos finales de la materia de NoSQL Verano-2025
