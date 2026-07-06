@@ -19,7 +19,7 @@ db["usuarios"].find({edad:{$lte:20}})
 db["libros"].find({categoria:{$ne:"Programacion"}})
 
 6. Mostrar los usuarios que estudien Ingeniería Informática y estén en sexto semestre o superiorMostrar los libros cuya categoría sea Programación o Bases de Datos.
-db["usuarios"]ÑÑ.find({ carrera: "Ingeniería Informatica",semestre:{$gte: 6}})
+db["usuarios"].find({ carrera: "Ingeniería Informatica",semestre:{$gte: 6}})
 
 7. Mostrar los préstamos que no han sido devueltos y cuya duración sea mayor a 8 días.
 db["libros"].find({categoria:{$in:["Programacion","Bases de Datos"]}})
@@ -28,7 +28,7 @@ db["libros"].find({categoria:{$in:["Programacion","Bases de Datos"]}})
 db["libros"].find({titulo:/^M/})
 
 9. Mostrar los usuarios cuyo nombre empiece con la letra A.
-db["usuarios"].find({ edad:/^A/})
+db["usuarios"].find({ nombre:/^A/})
 
 10. Mostrar los libros cuyo título contenga la palabra "Base".
 db["libros"].find({titulo:/Base/})
