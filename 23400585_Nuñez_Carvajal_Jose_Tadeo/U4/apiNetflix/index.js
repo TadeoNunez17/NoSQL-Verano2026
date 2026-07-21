@@ -3,6 +3,9 @@ const morgan=require('morgan');
 const app=express();
 const port=3000;
 const mongoose=require("mongoose")
+const cors=require("cors");
+const dns = require('dns');
+
 
 app.use(morgan("dev"));
 app.use(express.json());
@@ -11,13 +14,20 @@ app.get("/",(req,res)=>{
     res.send("Api de peliculas y series");
 });
 
-//Servidor netflix
-mongoose.connect("mongodb+srv://grupo:grupo@servidorprueba.ygegryf.mongodb.net/netflix").then(()=>{
-    console.log("Conectado correctamente a MongoDB")
-}).catch((error)=>{
-    console.log("Error al conectar con mongodb: ",error);
-});
+dns.setServers([
+  '1.1.1.1',
+  '8.8.8.8'
+]);
 
+mongoose.connect(
+  'mongodb+srv://grupo:grupo@servidorprueba.ygegryf.mongodb.net/netflix'
+)
+.then(() => {
+  console.log('Conectado correctamente a MongoDB');
+})
+.catch((error) => {
+  console.error('Error al conectar a MongoDB:', error);
+});
 /*
 //servidor prueba
 mongoose.connect("mongodb+srv://root:Nc20050417@servidorprueba.czh89ge.mongodb.net/").then(()=>{

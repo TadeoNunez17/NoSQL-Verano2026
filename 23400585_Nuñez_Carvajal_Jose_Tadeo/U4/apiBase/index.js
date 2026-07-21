@@ -193,8 +193,8 @@ mongoose.connect("mongodb+srv://grupo:grupo@servidorprueba.ygegryf.mongodb.net/n
     console.log("Error al conectar con mongodb: ",error);
 });
 */
-//servidor prueba
-mongoose.connect("mongodb+srv://root:Nc20050417@servidorprueba.czh89ge.mongodb.net/").then(()=>{
+//servidor netflix
+mongoose.connect("mongodb://grupo:grupo@ac-g89jfcg-shard-00-00.ygegryf.mongodb.net:27017,ac-g89jfcg-shard-00-01.ygegryf.mongodb.net:27017,ac-g89jfcg-shard-00-02.ygegryf.mongodb.net:27017/?replicaSet=atlas-q8azcb-shard-0&authSource=admin").then(()=>{
     console.log("Conectado correctamente a MongoDB")
 }).catch((error)=>{
     console.log("Error al conectar con mongodb: ",error);
