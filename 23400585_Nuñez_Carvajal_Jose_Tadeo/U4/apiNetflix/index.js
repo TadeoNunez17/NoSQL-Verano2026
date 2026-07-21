@@ -7,20 +7,25 @@ const mongoose=require("mongoose")
 app.use(morgan("dev"));
 app.use(express.json());
 
+app.get("/",(req,res)=>{
+    res.send("Api de peliculas y series");
+});
+
 //Servidor netflix
-/*
 mongoose.connect("mongodb+srv://grupo:grupo@servidorprueba.ygegryf.mongodb.net/netflix").then(()=>{
     console.log("Conectado correctamente a MongoDB")
 }).catch((error)=>{
     console.log("Error al conectar con mongodb: ",error);
 });
-*/
+
+/*
 //servidor prueba
 mongoose.connect("mongodb+srv://root:Nc20050417@servidorprueba.czh89ge.mongodb.net/").then(()=>{
     console.log("Conectado correctamente a MongoDB")
 }).catch((error)=>{
     console.log("Error al conectar con mongodb: ",error);
 });
+*/
 const peliculaSchema=new mongoose.Schema({
     titulo:{type:String,required:true,trim:true},
     genero:{type:String,required:true,trim:true},
