@@ -1,14 +1,15 @@
 const express=require('express');
 const morgan=require('morgan');
-const app=express();
-const port=3000;
 const mongoose=require("mongoose")
 const cors=require("cors");
 const dns = require('dns');
 
+const app=express();
+const port=3000;
 
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cors());
 
 app.get("/",(req,res)=>{
     res.send("Api de peliculas y series");
@@ -19,23 +20,38 @@ dns.setServers([
   '8.8.8.8'
 ]);
 
-mongoose.connect(
-  'mongodb+srv://grupo:grupo@servidorprueba.ygegryf.mongodb.net/netflix'
-)
-.then(() => {
-  console.log('Conectado correctamente a MongoDB');
-})
-.catch((error) => {
-  console.error('Error al conectar a MongoDB:', error);
+let cached = global.mongoose;
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+async function connectDB() {
+  if (cached.conn) return cached.conn;
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(
+      'mongodb+srv://grupo:grupo@servidorprueba.ygegryf.mongodb.net/netflix'
+    ).then((m) => {
+      console.log('Conectado correctamente a MongoDB');
+      return m;
+    }).catch((error) => {
+      console.error('Error al conectar a MongoDB:', error);
+      throw error;
+    });
+  }
+  cached.conn = await cached.promise;
+  return cached.conn;
+}
+
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    res.status(500).json({ mensaje: "Error de conexión a la base de datos", error: err.message });
+  }
 });
-/*
-//servidor prueba
-mongoose.connect("mongodb+srv://root:Nc20050417@servidorprueba.czh89ge.mongodb.net/").then(()=>{
-    console.log("Conectado correctamente a MongoDB")
-}).catch((error)=>{
-    console.log("Error al conectar con mongodb: ",error);
-});
-*/
+
+connectDB();
 const peliculaSchema=new mongoose.Schema({
     titulo:{type:String,required:true,trim:true},
     genero:{type:String,required:true,trim:true},
@@ -259,9 +275,13 @@ app.delete("/series/:id", async (req,res)=>{
 });
 
 
-app.listen(port,()=>{
-    console.log("Servidor iniciado en http://localhost:"+port);
-});
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log("Servidor iniciado en http://localhost:" + port);
+  });
+}
+
+module.exports = app;
 
 
 
